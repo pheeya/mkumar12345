@@ -55,8 +55,9 @@ s = json_sheet[i];
 var date = new Date(s.Date);
 var js_date = ExcelDateToJSDate(date);
 var final_date = formatDate(js_date); 
-console.log(s)
 // assigning values to dom
+console.log(s)
+card.style.backgroundColor=s.Color
 company.src = s["Company Image"]
 price.src=s['Price Image'];
 illustration.src = s.Illustration;
