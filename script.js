@@ -134,6 +134,10 @@ function create_filters(sheet) {
     selected_holder.classList.add("selected_holder");
 
     fetched_values.forEach(function (value) {
+      var enabled = document.createElement("div");
+      enabled.innerHTML="Enabled"
+      var disabled = document.createElement("div");
+      disabled.innerHTML="Disabled"
       var new_value = document.createElement('div');     //create list of values from array for each option
       new_value.dataset.selected = false;
       new_value.id = value;
@@ -141,13 +145,15 @@ function create_filters(sheet) {
       new_value.dataset.type = fetched_option;
       new_value.classList.add("value");
       new_value.innerHTML = value;
+      new_value.appendChild(disabled)
       new_value.onclick = function () {
         new_value.dataset.selected = true;
         new_value.style.display = "none"
         var clicked = document.createElement("div");
         clicked.classList.add("selected");
         clicked.dataset.name = new_value.dataset.name;
-        clicked.innerHTML = new_value.innerHTML;
+        clicked.innerHTML =value;
+        clicked.appendChild(enabled)
         clicked.dataset.type = fetched_option;
         selected.push(clicked);
         selected.forEach(function (val) {
@@ -157,7 +163,7 @@ function create_filters(sheet) {
             for (let i = 0; i < values_content.length; i++) {
               if (values_content[i].dataset.name === e.target.dataset.name) {
                 values_content[i].dataset.selected = "false"
-                values_content[i].style.display = "block"
+                values_content[i].style.display = "flex"
               }
             }
             // new_value.dataset.selected = false;
@@ -199,17 +205,23 @@ function filter() {
       active_options.push(all_options[i])
     }
   }
-  active_options.forEach(function (opt) {
-    console.log(opt)
+
+  var selected_types = [];
+  active_options.forEach(function(opt){           //count selected number of types
+    if(!selected_types.includes(opt.dataset.type)){
+      selected_types.push(opt.dataset.type)
+    }
   })
 
   var all_cards = document.getElementsByClassName('card');
+  var matches = []
   for (let i = 0; i < all_cards.length; i++) {
-    all_cards[i].style.display = "block"
+    all_cards[i].style.display = "inline-block"
   }
   if (active_options.length > 0) {
     for (let i = 0; i < all_cards.length; i++) {
       all_cards[i].style.display = "none"
+      matches.push(0)
     }
     for (let i = 0; i < active_options.length; i++) {
       var current_type = _.camelCase(active_options[i].dataset.type);
@@ -217,16 +229,22 @@ function filter() {
       if (current_type !== undefined && current_name !== undefined) {
         for (let j = 0; j < all_cards.length; j++) {
           if (all_cards[j].dataset[current_type].toLowerCase() === current_name) {
-            console.log(current_type)
-            all_cards[j].style.display = "block"
+            matches[j]++;
+           if(matches[j]===selected_types.length){
+            all_cards[j].style.display = "inline-block"
+            console.log(all_cards[j])
+           }
+           else{
+            all_cards[j].style.display="none"
+           
           }
-          else{
-            all_cards[i].style.display="none"
           }
+         
         }
       }
     }
   }
+ 
 }
 
 

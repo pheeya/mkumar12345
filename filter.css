@@ -52,6 +52,14 @@ background-color: rgb(255, 255, 255);
   min-height: 20px;
   transition: all .2s;
   border-bottom:1px solid rgba(0, 0, 0, 0.062);
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.values .value div{
+  font-size:13px;
+  color:rgb(133, 132, 132);
+  pointer-events: none;
 }
 .values .value:hover{
     background-color: rgba(128, 128, 128, 0.185);
@@ -62,6 +70,14 @@ background-color: rgb(255, 255, 255);
   border-bottom:1px solid rgba(255, 251, 251, 0.26);
   padding: 10px;
   transition:all .2s;
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.drop_down .selected div{
+  font-size:13px;
+  color:rgb(25, 209, 25);
+  pointer-events: none;
 }
 .drop_down .selected:hover{
   background-color: rgb(49, 49, 49);
