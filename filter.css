@@ -3,20 +3,24 @@
   background-color: rgb(43, 42, 42);
   color: white;
 }
+.filters .date{
+}
 #drop_downs {
-    text-align: center;
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 .drop_down {
     text-align: left;
   border: 1px solid rgba(252, 251, 251, 0.199);
-  display: inline-block;
   vertical-align: top;
-  margin: 5px;
   cursor: pointer;
+  margin:5px;
   background-color: rgb(70, 68, 68);
   width: 180px;
   transition: all 0.2s;
   position: relative;
+  z-index: 3;
 }
 .drop_down .option{
   padding: 10px;
