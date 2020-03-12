@@ -1,5 +1,5 @@
 var url = "Join Events.xlsx";
-
+var json_sheet;
 /* set up async GET request */
 var req = new XMLHttpRequest();
 req.open("GET", url, true);
@@ -10,7 +10,7 @@ req.onload = function (e) {
   var workbook = XLSX.read(data, { type: "array" });
   /* DO SOMETHING WITH workbook HERE */
   var sheet_name_list = workbook.SheetNames;
-  var json_sheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+  json_sheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
   create_filters(json_sheet)
   for (let i = 0; i < json_sheet.length; i++) {
     var card = document.createElement("a");
@@ -52,7 +52,6 @@ req.onload = function (e) {
 
 
     s = json_sheet[i];
-    console.log(s)
     // getting date in correct format
     var date = new Date(s.Date);
     var js_date = ExcelDateToJSDate(date);
@@ -62,7 +61,7 @@ req.onload = function (e) {
     company.src = s["Company Image"]
     price.src = s['Price Image'];
     illustration.src = s.Illustration;
-    time.innerHTML = final_date + s.Time;
+    time.innerHTML = final_date + " " + s.Time;
     title.innerHTML = s.Title;
     card.href = s.Link;
     card.target = "_blank"
@@ -235,7 +234,6 @@ function filter() {
             matches[j]++;
             if (matches[j] === selected_types.length) {
               all_cards[j].style.display = "inline-block"
-              console.log(all_cards[j])
               all_cards[j].classList.remove("hidden-by-filter")
             }
             else {
@@ -291,7 +289,9 @@ function dragElement(elmnt) {
       if (current_max <= 175 && current_max > current_min + 20) {
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
         max_date = 43550 + current_max;
-        console.log(max_date)
+        var get_date = ExcelDateToJSDate(max_date);
+        var final_date = formatDate(get_date);
+        document.getElementById("current_max_date").innerHTML = final_date
       }
     }
     if (elmnt.id === "min") {
@@ -299,12 +299,14 @@ function dragElement(elmnt) {
       if (current_min < current_max - 20 && current_min > -21) {
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
         min_date = 43550 + current_min;
-        console.log(min_date)
+        var get_date = ExcelDateToJSDate(min_date);
+        var final_date = formatDate(get_date);
+        document.getElementById("current_min_date").innerHTML = final_date
       }
     }
     // set the element's new position:
 
-    filter_date()
+    filter_date();
   }
   function closeDragElement() {
     // stop moving when mouse button is released:
@@ -320,8 +322,30 @@ function filter_date() {
       cards[i].style.display = "none"
     }
 
-    else if (!cards[i].classList.contains("hidden-by-filter")){
+    else if (!cards[i].classList.contains("hidden-by-filter")) {
       cards[i].style.display = "block"
     }
   }
+}
+
+function search(text) {
+  var cards = document.getElementsByClassName("card");
+  var filter = text.toUpperCase();
+  for (let i = 0; i < json_sheet.length; i++) {
+    s = json_sheet[i];
+    var tags = s['Producer'] + s['Place'] + s['Region'] + s['Type'] + s['Product Type'] + s['Title'] + s['Who Can Attend'];
+    if (tags.toUpperCase().indexOf(filter) < 0) {
+      cards[i].style.display = "none"
+    }
+    else if (!cards[i].classList.contains("hidden-by-filter")) {
+      cards[i].style.display = "block"
+    }
+  }
+}
+
+document.getElementById("search").onfocus = function(){
+  document.getElementById("search_holder").style.maxWidth="100%"
+}
+document.getElementById("search").onblur = function(){
+  document.getElementById("search_holder").style.maxWidth="500px"
 }

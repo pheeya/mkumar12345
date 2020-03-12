@@ -109,3 +109,39 @@ a {
   width: 100%;
   background-color: white;
 }
+
+#current_min_date {
+  position: absolute;
+  left: -20px;
+  top: 25px;
+}
+
+#current_max_date {
+  position: absolute;
+  right: -20px;
+  top: 25px;
+}
+.search {
+  background-color: white;
+  display: flex;
+  padding: 10px;
+  max-width: 500px;
+  border-radius: 2px;
+  transition: all .3s;
+}
+.search input {
+  border-radius: 2px;
+  border: 0;
+  transition: all 0.2s;
+  width: 100%;
+}
+.search input:focus {
+  outline: 0;
+}
+.search img {
+  width: 30px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
