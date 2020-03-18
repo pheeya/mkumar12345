@@ -63,16 +63,20 @@ req.onload = function (e) {
     illustration.src = s.Illustration;
     time.innerHTML = final_date + " " + s.Time;
     title.innerHTML = s.Title;
-    card.href = s.Link;
-    card.target = "_blank"
+    // card.href = s.Link;
+    // card.target = "_blank"
+    card.dataset.link = s.Link;
     card.dataset.producer = s['Producer']
+    card.dataset.time = time.innerHTML;
     card.dataset.place = s['Place']
     card.dataset.productType = s['Product Type']
     card.dataset.type = s['Type']
     card.dataset.whoCanAttend = s['Who Can Attend']
     card.dataset.serialDate = s['Date']
     document.getElementById("cards").appendChild(card); //apend to cards flexbox
-
+    card.addEventListener("click", function () {
+      pop(this)
+    })
   }
 }
 
@@ -109,8 +113,13 @@ function formatDate(date) {
 }
 req.send();
 
+
+var global_keys = [];                //MAKING ALL OPTIONS BE AVAILABL GLOBALLY
+
+
 function create_filters(sheet) {
   var options = Object.keys(sheet[0]);
+  global_keys = options;
   options.forEach(function (fetched_option) { //option = filter label
     var drop_down = document.createElement("div");  //create drop down filter
     drop_down.classList.add("drop_down");
@@ -185,6 +194,7 @@ function create_filters(sheet) {
 
 
     if (fetched_option === "Producer" || fetched_option === "Place" || fetched_option === "Type" || fetched_option === "Product Type" || fetched_option === "Who Can Attend") {
+
       drop_down.appendChild(option);
       drop_down.appendChild(values);
       drop_down.appendChild(selected_holder)
@@ -343,9 +353,29 @@ function search(text) {
   }
 }
 
-document.getElementById("search").onfocus = function(){
-  document.getElementById("search_holder").style.maxWidth="100%"
+document.getElementById("search").onfocus = function () {
+  document.getElementById("search_holder").style.maxWidth = "100%"
 }
-document.getElementById("search").onblur = function(){
-  document.getElementById("search_holder").style.maxWidth="500px"
+document.getElementById("search").onblur = function () {
+  document.getElementById("search_holder").style.maxWidth = "500px"
+}
+
+var popup = document.getElementById("popup_holder");
+var popup_inner = document.getElementsByClassName("popup")[[0]]
+document.getElementById("close").onclick = function () {
+  popup.style.visibility = "hidden";
+  popup_inner.style.transform = "scale(0)"
+  popup_inner.style.opacity = "0"
+}
+function pop(element) {
+  popup.style.visibility = "visible"
+  popup_inner.style.transform = "scale(1)"
+  popup_inner.style.opacity = "1"
+document.getElementById("property_producer").innerHTML=element.dataset['producer']
+document.getElementById("property_place").innerHTML=element.dataset['place']
+document.getElementById("property_type").innerHTML=element.dataset['type']
+document.getElementById("property_product_type").innerHTML=element.dataset.productType
+document.getElementById("property_who_can_attend").innerHTML=element.dataset.whoCanAttend
+document.getElementById("register_link").href=element.dataset.link;
+document.getElementById("register_link").target="_blank"
 }
