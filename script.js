@@ -213,6 +213,7 @@ function create_filters(sheet) {
 
 // filtering function
 function filter() {
+  var active_cards = []
   var all_options = Array.from(document.getElementsByClassName("value"))
   var active_options = [];
   for (let i = 0; i < all_options.length; i++) {
@@ -249,7 +250,8 @@ function filter() {
             matches[j]++;
             if (matches[j] === selected_types.length) {
               all_cards[j].style.display = "inline-block"
-              all_cards[j].classList.remove("hidden-by-filter")
+              all_cards[j].classList.remove("hidden-by-filter");
+              active_cards.push(all_cards[j])
             }
             else {
               all_cards[j].style.display = "none"
@@ -261,7 +263,12 @@ function filter() {
       }
     }
   }
-
+if(active_cards.length>0){
+  paginate(active_cards)
+}
+else{
+  paginate(document.getElementsByClassName("card"))
+}
 }
 
 
@@ -330,6 +337,7 @@ function dragElement(elmnt) {
   }
 }
 function filter_date() {
+  var active_cards = [];
   var cards = document.getElementsByClassName("card");
   for (let i = 0; i < cards.length; i++) {
     var date = parseInt(cards[i].dataset.serialDate);
@@ -338,15 +346,20 @@ function filter_date() {
     }
 
     else if (!cards[i].classList.contains("hidden-by-filter")) {
-      cards[i].style.display = "block"
+      cards[i].style.display = "block";
+      active_cards.push(cards[i])
     }
   }
+  if(active_cards.length>0){
+    paginate(active_cards)
+  }
+  
 }
 
 function search(text) {
+  var active_cards = [];
   var cards = document.getElementsByClassName("card");
   var filter = text.toUpperCase();
-  if (text !== "") {
     for (let i = 0; i < json_sheet.length; i++) {
       s = json_sheet[i];
       var tags = s['Producer'] + s['Place'] + s['Region'] + s['Type'] + s['Product Type'] + s['Title'] + s['Who Can Attend'];
@@ -355,13 +368,14 @@ function search(text) {
       }
       else if (!cards[i].classList.contains("hidden-by-filter")) {
         cards[i].style.display = "block"
+        active_cards.push(cards[i]);
+        console.log(active_cards)
       }
     }
+     if(active_cards.length>0){
+      paginate(active_cards)
+     }
   }
-  else{
-    updatePage(cards,current_page)
-  }
-}
 
 document.getElementById("search").onfocus = function () {
   document.getElementById("search_holder").style.maxWidth = "100%"
@@ -407,6 +421,8 @@ var current_page = 1;
 // pagination function
 
 function paginate(cards) {
+  document.getElementsByClassName("pagination_buttons")[0].innerHTML=""
+  current_page = 1;
   var page_assigner = 1;
   var page1 = document.createElement("div");
   page1.classList.add("page_button");
