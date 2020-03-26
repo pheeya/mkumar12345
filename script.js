@@ -15,7 +15,6 @@ req.onload = function (e) {
   for (let i = 0; i < json_sheet.length; i++) {
     var card = document.createElement("a");
     card.classList.add("card");
-
     // top div
     var top = document.createElement("div");
     top.classList.add("top")
@@ -65,8 +64,12 @@ req.onload = function (e) {
     title.innerHTML = s.Title;
     // card.href = s.Link;
     // card.target = "_blank"
+    card.dataset.thumbnail = s.Illustration;
     card.dataset.link = s.Link;
+    card.dataset.time = time.innerHTML;
+    card.dataset.title = s['Title']
     card.dataset.producer = s['Producer']
+    card.dataset.description = s["Description"]
     card.dataset.time = time.innerHTML;
     card.dataset.place = s['Place']
     card.dataset.productType = s['Product Type']
@@ -78,6 +81,8 @@ req.onload = function (e) {
       pop(this)
     })
   }
+  paginate(document.getElementsByClassName("card"))
+
 }
 
 function ExcelDateToJSDate(serial) {
@@ -341,15 +346,20 @@ function filter_date() {
 function search(text) {
   var cards = document.getElementsByClassName("card");
   var filter = text.toUpperCase();
-  for (let i = 0; i < json_sheet.length; i++) {
-    s = json_sheet[i];
-    var tags = s['Producer'] + s['Place'] + s['Region'] + s['Type'] + s['Product Type'] + s['Title'] + s['Who Can Attend'];
-    if (tags.toUpperCase().indexOf(filter) < 0) {
-      cards[i].style.display = "none"
+  if (text !== "") {
+    for (let i = 0; i < json_sheet.length; i++) {
+      s = json_sheet[i];
+      var tags = s['Producer'] + s['Place'] + s['Region'] + s['Type'] + s['Product Type'] + s['Title'] + s['Who Can Attend'];
+      if (tags.toUpperCase().indexOf(filter) < 0) {
+        cards[i].style.display = "none"
+      }
+      else if (!cards[i].classList.contains("hidden-by-filter")) {
+        cards[i].style.display = "block"
+      }
     }
-    else if (!cards[i].classList.contains("hidden-by-filter")) {
-      cards[i].style.display = "block"
-    }
+  }
+  else{
+    updatePage(cards,current_page)
   }
 }
 
@@ -371,11 +381,78 @@ function pop(element) {
   popup.style.visibility = "visible"
   popup_inner.style.transform = "scale(1)"
   popup_inner.style.opacity = "1"
-document.getElementById("property_producer").innerHTML=element.dataset['producer']
-document.getElementById("property_place").innerHTML=element.dataset['place']
-document.getElementById("property_type").innerHTML=element.dataset['type']
-document.getElementById("property_product_type").innerHTML=element.dataset.productType
-document.getElementById("property_who_can_attend").innerHTML=element.dataset.whoCanAttend
-document.getElementById("register_link").href=element.dataset.link;
-document.getElementById("register_link").target="_blank"
+  document.getElementById("popup_thumbnail").src = element.dataset['thumbnail']
+  document.getElementById("popup_time").innerHTML = element.dataset['time']
+  document.getElementById("popup_title").innerHTML = element.dataset['title']
+  document.getElementById("popup_description").innerHTML = element.dataset['description']
+  document.getElementById("property_producer").innerHTML = element.dataset['producer']
+  document.getElementById("property_place").innerHTML = element.dataset['place']
+  document.getElementById("property_type").innerHTML = element.dataset['type']
+  document.getElementById("property_product_type").innerHTML = element.dataset.productType
+  document.getElementById("property_who_can_attend").innerHTML = element.dataset.whoCanAttend
+  document.getElementById("register_link").href = element.dataset.link;
+  document.getElementById("register_link").target = "_blank"
+}
+
+////////////////PAGINATION///////////////////////
+
+
+
+//CONSTANTS
+
+const MAX_PER_PAGE = 6;
+// Variables
+
+var current_page = 1;
+// pagination function
+
+function paginate(cards) {
+  var page_assigner = 1;
+  var page1 = document.createElement("div");
+  page1.classList.add("page_button");
+  page1.classList.add("active_page");
+  page1.innerHTML = page_assigner
+  document.getElementsByClassName("pagination_buttons")[0].appendChild(page1);
+  page1.onclick = function () {
+    current_page = parseInt(this.innerHTML)
+    updatePage(cards, current_page);
+  }
+  for (let i = 0; i < cards.length; i++) {
+    if (i > 1 && i % MAX_PER_PAGE === 0) {
+      page_assigner++;
+      var page = document.createElement("div");
+      page.classList.add("page_button");
+      page.innerHTML = page_assigner
+      document.getElementsByClassName("pagination_buttons")[0].appendChild(page)
+      page.onclick = function () {
+        current_page = parseInt(this.innerHTML);
+        updatePage(cards, current_page);
+      }
+    }
+    cards[i].dataset.page = page_assigner
+  }
+  var buttons = document.getElementsByClassName("page_button");
+  updatePage(cards, current_page);
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", function () {
+      for (let j = 0; j < buttons.length; j++) {
+        buttons[j].classList.remove("active_page");
+      }
+      this.classList.add("active_page")
+      console.log('ok')
+    })
+  }
+}
+
+
+
+function updatePage(cards, p) {
+  for (let i = 0; i < cards.length; i++) {
+    if (parseInt(cards[i].dataset.page) === p && !cards[i].classList.contains("hidden-by-filter")) {
+      cards[i].style.display = "inline-block"
+    }
+    else {
+      cards[i].style.display = "none"
+    }
+  }
 }
