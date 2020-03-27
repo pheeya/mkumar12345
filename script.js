@@ -263,12 +263,12 @@ function filter() {
       }
     }
   }
-if(active_cards.length>0){
-  paginate(active_cards)
-}
-else{
-  paginate(document.getElementsByClassName("card"))
-}
+  if (active_cards.length > 0) {
+    paginate(active_cards)
+  }
+  else {
+    paginate(document.getElementsByClassName("card"))
+  }
 }
 
 
@@ -286,26 +286,27 @@ function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   // otherwise, move the DIV from anywhere inside the DIV:
   elmnt.onmousedown = dragMouseDown;
-
+  elmnt.ontouchstart = dragMouseDown;
   function dragMouseDown(e) {
     e = e || window.event;
     e.preventDefault();
     // get the mouse cursor position at startup:
-    pos3 = e.clientX || e.touches[0].clientX;
-    pos4 = e.clientY || e.touches[0].clientY;
+    pos3 = e.clientX || e.touches[0].clientX
+    pos4 = e.clientY || e.touches[0].clientY
     document.onmouseup = closeDragElement;
     // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
+    document.onmousemove = elementDrag
+    document.ontouchmove = elementDrag
   }
 
   function elementDrag(e) {
     e = e || window.event;
     e.preventDefault();
     // calculate the new cursor position:
-    pos1 = pos3 - e.clientX ||  e.touches[0].clientX;
-    pos2 = pos4 - e.clientY || e.touches[0].clientY;
-    pos3 = e.clientX || e.touches[0].clientX;
-    pos4 = e.clientY || e.touches[0].clientY;
+    pos1 = pos3 - e.clientX ||  pos3 - e.touches[0].clientX
+    pos2 = pos3 - e.clientY ||  pos4 - e.touches[0].clientY
+    pos3 = e.clientX || e.touches[0].clientX
+    pos4 = e.clientY || e.touches[0].clientY
     if (elmnt.id === "max") {
       current_max = elmnt.offsetLeft - pos1;
       if (current_max <= 175 && current_max > current_min + 20) {
@@ -350,32 +351,32 @@ function filter_date() {
       active_cards.push(cards[i])
     }
   }
-  if(active_cards.length>0){
+  if (active_cards.length > 0) {
     paginate(active_cards)
   }
-  
+
 }
 
 function search(text) {
   var active_cards = [];
   var cards = document.getElementsByClassName("card");
   var filter = text.toUpperCase();
-    for (let i = 0; i < json_sheet.length; i++) {
-      s = json_sheet[i];
-      var tags = s['Producer'] + s['Place'] + s['Region'] + s['Type'] + s['Product Type'] + s['Title'] + s['Who Can Attend'];
-      if (tags.toUpperCase().indexOf(filter) < 0) {
-        cards[i].style.display = "none"
-      }
-      else if (!cards[i].classList.contains("hidden-by-filter")) {
-        cards[i].style.display = "block"
-        active_cards.push(cards[i]);
-        console.log(active_cards)
-      }
+  for (let i = 0; i < json_sheet.length; i++) {
+    s = json_sheet[i];
+    var tags = s['Producer'] + s['Place'] + s['Region'] + s['Type'] + s['Product Type'] + s['Title'] + s['Who Can Attend'];
+    if (tags.toUpperCase().indexOf(filter) < 0) {
+      cards[i].style.display = "none"
     }
-     if(active_cards.length>0){
-      paginate(active_cards)
-     }
+    else if (!cards[i].classList.contains("hidden-by-filter")) {
+      cards[i].style.display = "block"
+      active_cards.push(cards[i]);
+      console.log(active_cards)
+    }
   }
+  if (active_cards.length > 0) {
+    paginate(active_cards)
+  }
+}
 
 document.getElementById("search").onfocus = function () {
   document.getElementById("search_holder").style.maxWidth = "100%"
@@ -421,7 +422,7 @@ var current_page = 1;
 // pagination function
 
 function paginate(cards) {
-  document.getElementsByClassName("pagination_buttons")[0].innerHTML=""
+  document.getElementsByClassName("pagination_buttons")[0].innerHTML = ""
   current_page = 1;
   var page_assigner = 1;
   var page1 = document.createElement("div");
@@ -472,3 +473,5 @@ function updatePage(cards, p) {
     }
   }
 }
+
+
