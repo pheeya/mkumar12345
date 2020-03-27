@@ -294,6 +294,7 @@ function dragElement(elmnt) {
     pos3 = e.clientX || e.touches[0].clientX
     pos4 = e.clientY || e.touches[0].clientY
     document.onmouseup = closeDragElement;
+    document.ontouchend = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag
     document.ontouchmove = elementDrag
