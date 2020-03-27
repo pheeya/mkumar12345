@@ -286,29 +286,26 @@ function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   // otherwise, move the DIV from anywhere inside the DIV:
   elmnt.onmousedown = dragMouseDown;
-  elmnt.ontouchstart = dragMouseDown;
 
   function dragMouseDown(e) {
     e = e || window.event;
     e.preventDefault();
     // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
+    pos3 = e.clientX || e.touches[0].clientX;
+    pos4 = e.clientY || e.touches[0].clientY;
     document.onmouseup = closeDragElement;
-    document.ontouchend = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
-    document.ontouchmove = elementDrag;
   }
 
   function elementDrag(e) {
     e = e || window.event;
     e.preventDefault();
     // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
+    pos1 = pos3 - e.clientX ||  e.touches[0].clientX;
+    pos2 = pos4 - e.clientY || e.touches[0].clientY;
+    pos3 = e.clientX || e.touches[0].clientX;
+    pos4 = e.clientY || e.touches[0].clientY;
     if (elmnt.id === "max") {
       current_max = elmnt.offsetLeft - pos1;
       if (current_max <= 175 && current_max > current_min + 20) {
@@ -336,9 +333,7 @@ function dragElement(elmnt) {
   function closeDragElement() {
     // stop moving when mouse button is released:
     document.onmouseup = null;
-    document.ontouchend = null;
     document.onmousemove = null;
-    document.ontouchmove = null;
   }
 }
 function filter_date() {
