@@ -10,18 +10,18 @@
 .drop_down {
   display: inline-block;
   text-align: left;
-  border: 1px solid rgba(252, 251, 251, 0.199);
   vertical-align: top;
   cursor: pointer;
   margin: 5px;
-  background-color: rgb(70, 68, 68);
   width: 180px;
   transition: all 0.2s;
   position: relative;
-  z-index: 3;
 }
 .drop_down .option {
+  border: 1px solid rgba(252, 251, 251, 0.199);
+  background-color: rgb(70, 68, 68);
   padding: 10px;
+  border-bottom: 2px solid white;
 }
 .drop_down:hover {
   background-color: rgb(49, 49, 49);
@@ -32,7 +32,7 @@
   visibility: visible;
 }
 .drop_down .values {
-  z-index: 1;
+  z-index: 3;
   background-color: rgb(255, 255, 255);
   max-height: 0;
   transition: all 0.3s;
@@ -42,7 +42,6 @@
   left: 0;
   top: 100%;
   color: Black;
-  border: 1px solid rgba(0, 0, 0, 0.24);
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
 }
