@@ -11,9 +11,12 @@
   justify-content: center;
   background-color: rgba(216, 213, 213, 0.616);
   visibility: hidden;
+ 
 }
 
 .popup {
+  max-height: 100vh;
+  overflow: scroll;
   display: inline-block;
   background-color: white;
   margin: auto;
@@ -25,6 +28,15 @@
   opacity: 0;
   font-size: 15px;
   transition: all 0.4s;
+  scrollbar-width: 0;
+  scrollbar-color: rgba(0,0,0,0);
+}
+.popup::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+.popup::-webkit-scrollbar-thumb{
+  width:0;
 }
 
 .popup img {
