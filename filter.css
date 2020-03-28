@@ -1,7 +1,7 @@
 .filters {
   padding: 15px;
-  background-color: rgb(43, 42, 42);
-  color: white;
+  background-color: rgb(245, 245, 245);
+  text-align: center;
 }
 
 #drop_downs {
@@ -16,16 +16,13 @@
   width: 180px;
   transition: all 0.2s;
   position: relative;
+  border: 1px solid rgba(29, 29, 29, 0.199);
 }
 .drop_down .option {
-  border: 1px solid rgba(252, 251, 251, 0.199);
-  background-color: rgb(70, 68, 68);
+  background-color: rgb(255, 253, 253);
   padding: 10px;
-  border-bottom: 2px solid white;
 }
-.drop_down:hover {
-  background-color: rgb(49, 49, 49);
-}
+
 .drop_down:hover .values {
   display: block;
   max-height: 600px;
@@ -44,6 +41,7 @@
   color: Black;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
+  border:1px solid silver;
 }
 
 .values .value {
@@ -65,7 +63,7 @@
 }
 
 .drop_down .selected {
-  background-color: rgb(70, 68, 68);
+  background-color: rgb(255, 255, 255);
   border-bottom: 1px solid rgba(255, 251, 251, 0.26);
   padding: 10px;
   transition: all 0.2s;
@@ -79,6 +77,6 @@
   pointer-events: none;
 }
 .drop_down .selected:hover {
-  background-color: rgb(49, 49, 49);
+  background-color: rgb(233, 233, 233);
 }
 
