@@ -20,7 +20,7 @@
 .drop_down .option {
   background-color: rgb(255, 253, 253);
   padding: 10px;
-  border:1px solid rgb(211, 211, 211);
+  border: 1px solid rgb(211, 211, 211);
 }
 
 .drop_down:hover .values {
@@ -30,7 +30,6 @@
 }
 .drop_down .values {
   z-index: 3;
-  background-color: rgb(241, 241, 241);
   max-height: 0;
   transition: all 0.3s;
   position: absolute;
@@ -40,11 +39,11 @@
   top: 100%;
   color: Black;
 
- 
+  background-color: rgb(255, 255, 255);
 }
 
 .values .value {
-  border:1px solid rgb(211, 211, 211);
+  border: 1px solid rgb(211, 211, 211);
   border-top: 0;
   padding: 10px;
   min-height: 20px;
@@ -63,9 +62,9 @@
 }
 
 .drop_down .selected {
-  border:1px solid rgb(211, 211, 211);
+  background-color: rgb(241, 241, 241);
+  border: 1px solid rgb(211, 211, 211);
   border-top: 0;
-  background-color: rgb(255, 255, 255);
   padding: 10px;
   transition: all 0.2s;
   display: flex;
@@ -76,8 +75,5 @@
   font-size: 13px;
   color: rgb(25, 209, 25);
   pointer-events: none;
-}
-.drop_down .selected:hover {
-  background-color: rgb(255, 255, 255);
 }
 
