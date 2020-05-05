@@ -366,7 +366,7 @@ function search(text) {
   var filter = text.toUpperCase();
   for (let i = 0; i < json_sheet.length; i++) {
     s = json_sheet[i];
-    var tags = s['Producer'] + s['Place'] + s['Region'] + s['Type'] + s['Product Type'] + s['Title'] + s['Who Can Attend'];
+    var tags = s['Producer'] + s['Place'] + s['Region'] + s['Type'] + s['Product Type'] + s['Title'] + s['Who Can Attend'] + cards[i].dataset['time'];
     if (tags.toUpperCase().indexOf(filter) < 0) {
       cards[i].style.display = "none"
     }
